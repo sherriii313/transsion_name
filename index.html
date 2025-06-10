@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transsion</title>
+  <style>
+    body {
+      background-color: #000;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      color: white;
+    }
+
+    h1.brand {
+      font-size: 70px;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .typing-container {
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .typing-text {
+      margin-left: 6px; /* Thora space after "I am a" */
+    }
+
+    .typing-text::after {
+      content: '|';
+      animation: blink 0.7s infinite;
+      margin-left: 5px;
+    }
+
+    @keyframes blink {
+      0% {opacity: 1;}
+      50% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="brand">Transsion</h1>
+  <div class="typing-container">
+    I am a <span class="typing-text" id="typing"></span>
+  </div>
+
+  <script>
+    const typingElement = document.getElementById('typing');
+    const words = ['Developer', 'Thinker', 'Coder', 'Designer', 'Creator'];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        charIndex--;
+        typingElement.textContent = currentWord.substring(0, charIndex);
+      } else {
+        charIndex++;
+        typingElement.textContent = currentWord.substring(0, charIndex);
+      }
+
+      let typingSpeed = isDeleting ? 100 : 200;
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        typingSpeed = 1000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typingSpeed = 500;
+      }
+
+      setTimeout(type, typingSpeed);
+    }
+
+    type();
+  </script>
+
+</body>
+</html>
